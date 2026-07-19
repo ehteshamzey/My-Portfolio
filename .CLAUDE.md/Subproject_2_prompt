@@ -1,0 +1,144 @@
+# Subproject 2 — Design System & Layout Shell
+
+## Context
+
+This is a **Next.js 14+ (App Router) + TypeScript + Tailwind CSS + Framer Motion** personal portfolio project. **Subproject 1 is complete** — the repo already has a working `create-next-app` scaffold with TypeScript, App Router, Tailwind CSS, ESLint, Prettier, tsconfig path aliases (`@/components`, `@/lib`, `@/content`, etc.), and the base folder structure (`app/`, `components/`, `lib/`, `content/`, `public/`). `npm run build` passes cleanly.
+
+Your job is **Subproject 2: Design System & Layout Shell**. After this subproject, the app must still compile and build cleanly (`npm run build`), and the browser should show a styled page with a working responsive navbar and footer.
+
+---
+
+## Deliverables
+
+### 1. Tailwind Theme Config (Light/Dark Mode)
+
+In `tailwind.config.ts`:
+
+- **Colors**: Define a semantic color palette using CSS custom properties so light/dark mode works via a class toggle (`dark` class on `<html>`). At minimum define tokens for: `background`, `foreground`, `primary`, `primary-foreground`, `secondary`, `secondary-foreground`, `muted`, `muted-foreground`, `accent`, `accent-foreground`, `border`, `card`, `card-foreground`, `destructive`, `destructive-foreground`.
+- **Fonts**: Configure two font families — a sans-serif for body text (Inter or Geist Sans) and a mono font for code/accents (JetBrains Mono or Geist Mono). Load them via `next/font/google` (or `next/font/local`) in the root layout and pass the CSS variable to Tailwind.
+- **Spacing / Border Radius**: Add a `radius` design token (e.g., `--radius: 0.5rem`) referenced in Tailwind config for consistent rounded corners.
+- **Dark mode strategy**: Use `darkMode: 'class'` in Tailwind config.
+
+Create a `app/globals.css` that defines the CSS custom properties for both `:root` (light) and `.dark` (dark) selectors.
+
+### 2. Theme Provider & Toggle
+
+- Create `components/theme-provider.tsx` — a client component that wraps `next-themes` (`ThemeProvider` from `next-themes` package). Install `next-themes`.
+- Create `components/theme-toggle.tsx` — a button that cycles between light/dark/system using `useTheme()` from `next-themes`. Use a sun/moon icon (inline SVG or `lucide-react`). Keep it accessible (`aria-label`, keyboard-operable).
+
+### 3. Root Layout (`app/layout.tsx`)
+
+- Import and apply the font variables.
+- Wrap `{children}` in the `ThemeProvider` (attribute="class", defaultTheme="system", enableSystem).
+- Set base `<html>` attributes: `lang="en"`, `suppressHydrationWarning`.
+- Add baseline `metadata` export: site title, description, favicons (placeholder is fine).
+- Apply global styles from `globals.css`.
+
+### 4. Reusable UI Primitives
+
+Create these in `components/ui/`. Each must be a well-typed, composable React component with `className` merging (use `clsx` + `tailwind-merge` — install both, create a `lib/utils.ts` exporting a `cn()` helper).
+
+| Component | File | Key Props | Notes |
+|-----------|------|-----------|-------|
+| **Container** | `container.tsx` | `children`, `className` | Max-width wrapper (`max-w-5xl mx-auto px-4 sm:px-6 lg:px-8`) |
+| **Section** | `section.tsx` | `children`, `id`, `className` | Full-width section with vertical padding, accepts `id` for anchor links |
+| **Button** | `button.tsx` | `variant` (`primary`, `secondary`, `outline`, `ghost`), `size` (`sm`, `md`, `lg`), `asChild` | Styled `<button>` or renders as child element (link etc.) via a simple `asChild` pattern using `Slot` from `@radix-ui/react-slot` (install it). |
+| **Badge** | `badge.tsx` | `variant` (`default`, `secondary`, `outline`), `children` | Small label/tag pill |
+| **Card** | `card.tsx` | `children`, `className` | Card wrapper + subcomponents: `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` |
+
+### 5. Global Navbar
+
+Create `components/navbar.tsx`:
+
+- **Desktop**: Horizontal nav with logo/name on the left, nav links on the right (`Home`, `About`, `Projects`, `Blog`, `Contact`). Include the `ThemeToggle` button.
+- **Mobile (< md breakpoint)**: Hamburger icon that opens a slide-in or dropdown mobile menu listing the same links. Animate open/close with Framer Motion. Clicking a link or clicking outside closes the menu.
+- Links should use `next/link` and point to `/#about`, `/#projects`, `/blog`, `/#contact` etc. (hash links for same-page sections, real routes for blog).
+- Navbar should be `sticky top-0` with a subtle backdrop blur and border-bottom.
+- **Accessibility**: Use `<nav>` landmark, `aria-expanded` on mobile toggle, focus-trap is nice-to-have.
+
+### 6. Footer
+
+Create `components/footer.tsx`:
+
+- Simple footer with: copyright line (`© {currentYear} <Name>. All rights reserved.`), social links row (GitHub, LinkedIn, Twitter/X, Email — use placeholder `#` hrefs), and optional "Built with Next.js & Tailwind" tagline.
+- Style: muted text, centered or flex layout, top border separator.
+
+### 7. Compose in Root Layout
+
+Wire everything together in `app/layout.tsx` so the page structure is:
+
+```
+<ThemeProvider>
+  <Navbar />
+  <main>{children}</main>
+  <Footer />
+</ThemeProvider>
+```
+
+Update `app/page.tsx` to render a placeholder hero section that uses `Container`, `Section`, and `Button` so you can visually verify the design system in the browser.
+
+---
+
+## Technical Constraints
+
+- **Do not install a full component library** (shadcn/ui CLI, Chakra, MUI). Build the primitives by hand — they can follow shadcn/ui patterns but must be self-contained files.
+- **All color values must go through CSS custom properties** — no hardcoded hex/rgb in component files.
+- **Every component must accept and merge a `className` prop** using the `cn()` utility.
+- **No `"use client"` unless the component genuinely needs client-side interactivity** (theme toggle, mobile menu). Keep everything else as server components.
+- **Framer Motion** is used only for the mobile menu animation in this subproject. Don't add page transitions yet (that's Subproject 8).
+- **Imports must use path aliases** (`@/components/...`, `@/lib/...`).
+
+---
+
+## File Tree After Completion
+
+```
+├── app/
+│   ├── globals.css              ← CSS custom properties (light/dark)
+│   ├── layout.tsx               ← root layout with fonts, ThemeProvider, Navbar, Footer
+│   └── page.tsx                 ← placeholder content using Section, Container, Button
+├── components/
+│   ├── navbar.tsx               ← responsive navbar with mobile menu
+│   ├── footer.tsx               ← site footer
+│   ├── theme-provider.tsx       ← next-themes wrapper
+│   ├── theme-toggle.tsx         ← light/dark toggle button
+│   └── ui/
+│       ├── button.tsx
+│       ├── badge.tsx
+│       ├── card.tsx
+│       ├── container.tsx
+│       └── section.tsx
+├── lib/
+│   └── utils.ts                 ← cn() helper (clsx + tailwind-merge)
+├── tailwind.config.ts           ← extended theme (colors, fonts, radius)
+└── package.json                 ← new deps: next-themes, clsx, tailwind-merge,
+                                    @radix-ui/react-slot, framer-motion, lucide-react
+```
+
+---
+
+## Verification & Testing (Run All Before Marking Complete)
+
+1. **Build check**: `npm run build` must pass with zero errors.
+2. **Lint check**: `npm run lint` must pass.
+3. **Visual check — Light mode**: Open `http://localhost:3000` in a browser. Confirm:
+   - Navbar renders at top with all links visible on desktop.
+   - Footer renders at bottom with copyright and social icons.
+   - Placeholder content on the home page uses correct fonts and colors.
+   - Button variants (`primary`, `secondary`, `outline`, `ghost`) all render distinctly.
+   - Badge and Card components render if placed on the page.
+4. **Visual check — Dark mode**: Click the theme toggle. Confirm:
+   - Background, text, borders, cards, and buttons all switch to dark palette.
+   - No flash of unstyled content (FOUC) on page reload in dark mode.
+   - System preference is respected on first visit.
+5. **Mobile responsiveness**: Resize browser to < 768px (or use DevTools mobile view). Confirm:
+   - Nav links collapse into a hamburger menu.
+   - Tapping hamburger opens the mobile menu with animation.
+   - Tapping a link or area outside the menu closes it.
+   - Footer stacks gracefully on small screens.
+6. **Accessibility quick-check**:
+   - Tab through the navbar — all links and the theme toggle are focusable and have visible focus rings.
+   - Hamburger button has `aria-expanded` and `aria-label`.
+7. **Component isolation test**: Temporarily render each UI primitive (`Button` with all variants, `Badge`, `Card` with sub-components, `Container`, `Section`) on `page.tsx` to confirm they all render correctly and accept custom `className` overrides.
+
+After all checks pass, commit with message: `feat: subproject-2 — design system, layout shell, navbar & footer`.
