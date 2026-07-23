@@ -3,57 +3,57 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f3f2f8;
+  --foreground: #14121f;
 
-  --primary: #171717;
-  --primary-foreground: #fafafa;
+  --primary: #6d4fe0;
+  --primary-foreground: #f3f2f8;
 
-  --secondary: #f4f4f5;
-  --secondary-foreground: #171717;
+  --secondary: #e6e3f2;
+  --secondary-foreground: #14121f;
 
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
+  --muted: #e6e3f2;
+  --muted-foreground: #55506b;
 
-  --accent: #f4f4f5;
-  --accent-foreground: #171717;
+  --accent: #ded8f5;
+  --accent-foreground: #6d4fe0;
 
-  --border: #e4e4e7;
-  --ring: #171717;
+  --border: #cec7e6;
+  --ring: #6d4fe0;
 
-  --card: #ffffff;
-  --card-foreground: #171717;
+  --card: #ece9f6;
+  --card-foreground: #14121f;
 
-  --destructive: #dc2626;
-  --destructive-foreground: #fafafa;
+  --destructive: #b91c1c;
+  --destructive-foreground: #f3f2f8;
 
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #07060d;
+  --foreground: #ece8fb;
 
-  --primary: #ededed;
-  --primary-foreground: #171717;
+  --primary: #a78bfa;
+  --primary-foreground: #07060d;
 
-  --secondary: #27272a;
-  --secondary-foreground: #ededed;
+  --secondary: #14101f;
+  --secondary-foreground: #d8cffb;
 
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
+  --muted: #14101f;
+  --muted-foreground: #8b84a8;
 
-  --accent: #27272a;
-  --accent-foreground: #ededed;
+  --accent: #1c1630;
+  --accent-foreground: #a78bfa;
 
-  --border: #27272a;
-  --ring: #d4d4d8;
+  --border: #241d38;
+  --ring: #a78bfa;
 
-  --card: #0a0a0a;
-  --card-foreground: #ededed;
+  --card: #0b0913;
+  --card-foreground: #ece8fb;
 
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #07060d;
 }
 
 @theme inline {
@@ -86,12 +86,57 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 0.25rem);
 
-  --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Subtle CRT scanline texture, dark mode only */
+.dark body {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(167, 139, 250, 0.025) 0px,
+    rgba(167, 139, 250, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Scattered node/dot field for hero backdrops */
+.node-field {
+  background-image: radial-gradient(circle, var(--color-primary) 1px, transparent 1px);
+  background-size: 42px 42px;
+  opacity: 0.18;
+}
+
+@keyframes blink-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 0.55ch;
+  margin-left: 0.15em;
+  background: currentColor;
+  animation: blink-cursor 1s step-end infinite;
 }

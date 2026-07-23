@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 const VARIANT_CLASSES = {
   primary: "bg-primary text-primary-foreground hover:bg-primary/90",
   secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-  outline: "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground",
+  outline:
+    "border border-primary/60 bg-transparent text-primary hover:border-primary hover:bg-primary/10",
   ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
 } as const;
 
@@ -37,7 +38,7 @@ export function Button({
   return (
     <Comp
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
         VARIANT_CLASSES[variant],
         SIZE_CLASSES[size],
         className,
