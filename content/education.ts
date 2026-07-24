@@ -1,0 +1,16 @@
+import type { Education } from "@/lib/types";
+
+export const education = [
+  {
+    degree: "B.Tech in Metallurgical and Material Science Engineering",
+    institution: "NITK",
+    location: "Mangalore, India",
+    graduation: "May 2027",
+  },
+  {
+    degree: "Higher Secondary Education",
+    institution: "Shaheen Independent PU College",
+    location: "Hyderabad, India",
+    graduation: "April 2023",
+  }
+] satisfies Education[];

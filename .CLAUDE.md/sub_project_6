@@ -1,0 +1,51 @@
+# Spec Document: Subproject 6 - Blog (MDX-based)
+
+## Overview
+This subproject implements a static, MDX-based blog system. The blog index will mimic a terminal directory listing (`ls -la` style), and individual blog posts will render markdown content styled to look like an open text file or man page.
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS + `@tailwindcss/typography` (for styling markdown content)
+- **MDX Processing:** `next-mdx-remote` (or `@next/mdx`) and `gray-matter` (for frontmatter parsing)
+- **Utilities:** `reading-time` (or a custom utility function for word count/reading time)
+
+## Component Architecture
+
+### 1. MDX Pipeline & Utilities (`lib/mdx.ts`, `lib/utils.ts`)
+- Implement utility functions to read `.mdx` files from the local filesystem (`content/blog/`).
+- Create a function to parse the frontmatter (title, date, description, tags) using `gray-matter`.
+- Create a utility function to calculate word count and estimated reading time based on the parsed markdown content.
+
+### 2. Seed Content (`content/blog/*.mdx`)
+Create placeholder MDX files to test the rendering pipeline. 
+
+**`content/blog/data-driven-metallurgy.mdx` Data Seed:**
+- *Frontmatter:* title: "Applying Machine Learning to Materials Science", date: "2026-06-15", description: "Exploring predictive modeling for metallurgical processes."
+- *Content:* Include placeholder paragraphs, a markdown list, and a small Python code block demonstrating Scikit-learn or Pandas usage.
+
+**`content/blog/ctf-forensics-guide.mdx` Data Seed:**
+- *Frontmatter:* title: "A Quick Guide to CTF Forensics", date: "2026-05-20", description: "Walkthrough of common techniques for network analysis and QR code forensics."
+- *Content:* Include placeholder text, headers, and terminal command snippets.
+
+### 3. Blog Index Page (`app/blog/page.tsx`)
+- Display a list of all blog posts sorted by date (newest first).
+- **Styling Rules:** 
+  - Mimic a terminal directory listing. 
+  - Each post entry should display the date, reading time (e.g., `[4 min read]`), and the title styled as a file link (e.g., `./data-driven-metallurgy.mdx`).
+
+### 4. Dynamic Post Page (`app/blog/[slug]/page.tsx`)
+- Fetch and render the MDX content based on the URL slug.
+- Use `@tailwindcss/typography` (the `prose` class) with modifiers to ensure it strictly matches the dark, developer aesthetic (`prose-invert`, terminal green link colors, dark grey code block backgrounds).
+- Add a terminal-style back button (e.g., `$ cd ../`) at the top and bottom of the post to return to the blog index.
+
+## Rules for Implementation
+- **Styling:** The blog content must remain highly readable while maintaining the dark "terminal" aesthetic. Code blocks within the MDX files must have clear syntax highlighting or a distinct monospaced style.
+- **Static Generation:** Ensure the blog posts are statically generated at build time; do not use server-side rendering for standard static MDX files.
+- **No Extraneous Links:** Do not include external GitHub icons or links unless explicitly written inside the markdown content by the author.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] MDX pipeline successfully parses `.mdx` files from the `content/blog/` directory.
+- [ ] The `app/blog` index page lists all placeholder posts with their calculated reading times.
+- [ ] Clicking a post correctly routes to `app/blog/[slug]` and renders the markdown content.
+- [ ] `@tailwindcss/typography` is configured correctly so markdown elements (headers, bold text, code blocks) adhere to the dark-mode theme. 

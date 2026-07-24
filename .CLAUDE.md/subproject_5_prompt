@@ -1,0 +1,60 @@
+# Spec Document: Subproject 5 - Projects Showcase
+
+## Overview
+This subproject implements the Projects showcase section and dynamic routing for individual project details. The UI will feature a responsive grid of project cards that maintain the dark-mode, developer-focused "terminal" aesthetic. 
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion (for staggered grid entry animations)
+- **Data Structure:** TypeScript
+
+## Component Architecture
+
+### 1. Data Definition (`content/projects.ts`)
+Create a static data file to drive the project cards and dynamic routes.
+
+**`content/projects.ts` Data Seed:**
+- *Title:* Optimization of ATDD Execution Pipeline
+- *Slug:* atdd-execution-pipeline
+- *Date:* Jun 2026 - Present
+- *Description:* Designed an automated Jenkins pipeline to fetch, sequentially merge, and validate GitLab merge requests targeting the ImsServerMaster branch on an hourly schedule. Implemented Epic-based ATDD tag resolution and conflict detection logic.
+- *Tags:* ['Jenkins', 'GitLab REST API', 'Groovy']
+
+- *Title:* Enterprise Feature Usage Analytics Platform
+- *Slug:* enterprise-telemetry-pipeline
+- *Date:* Feb 2026 - May 2026
+- *Description:* Designed an end-to-end telemetry pipeline converting enterprise product-usage data into strategic intelligence. Built a React 18 dashboard with RBAC, adoption heatmaps, and churn-risk scoring.
+- *Tags:* ['Node.js', 'React', 'SQLite', 'JWT', 'Docker']
+
+- *Title:* House Price Prediction
+- *Slug:* house-price-prediction
+- *Date:* May 2025 - July 2025
+- *Description:* Built a regression pipeline predicting property prices from 1,000+ housing records. Applied Ridge and Lasso regularization to handle multicollinearity and implemented polynomial feature engineering.
+- *Tags:* ['Python', 'Pandas', 'NumPy', 'Machine Learning']
+
+### 2. Project Card (`components/ProjectCard.tsx`)
+- A modular card component for the grid.
+- **Styling Rules:** 
+  - Dark background (e.g., `bg-slate-900` or `bg-[#0d1117]`) with a subtle border.
+  - Project title in a terminal-style accent color (e.g., green or cyan).
+  - Tags must be rendered at the bottom as pill-shaped terminal badges (e.g., `[ Python ]`).
+- **Strict Rule:** Do not include any GitHub links or GitHub icons beside the projects.
+
+### 3. Project Grid & Filtering (`components/ProjectGrid.tsx`)
+- Renders the `ProjectCard` components in a responsive grid (1 column on mobile, 2 or 3 on desktop).
+- Include a simple interactive filter mechanism at the top (e.g., "All", "Python", "React", "Jenkins") to filter projects by tag.
+- **Animations:** Use Framer Motion's `staggerChildren` and `whileInView` so the cards cascade into view sequentially as the user scrolls.
+
+### 4. Dynamic Project Page (`app/projects/[slug]/page.tsx`)
+- Set up a Next.js dynamic route to display extended details for a single project based on its `slug`.
+- The layout should mimic opening a detailed markdown file in a code editor (e.g., showing the title as `[slug].md`).
+- Add a "cd .." or "<- Back to projects" link styled as a terminal command to return to the main page.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] `ProjectGrid.tsx` successfully maps and renders data from `content/projects.ts`.
+- [ ] No GitHub links or icons are present on the project cards.
+- [ ] The tag filtering system correctly updates the visible projects.
+- [ ] Clicking a project card successfully routes the user to `app/projects/[slug]`.
+- [ ] Project cards animate smoothly into view upon scrolling.

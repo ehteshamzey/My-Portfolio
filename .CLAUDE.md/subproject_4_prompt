@@ -1,0 +1,62 @@
+# Spec Document: Subproject 4 - Experience & Education Timeline
+
+## Overview
+This subproject implements the Experience and Education section of the portfolio website. It must feature a vertical, chronological timeline that renders dynamically from data files. The design must adhere to the modern, dark-mode, developer-focused "terminal" aesthetic established in the skeleton.
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion (for scroll-triggered animations)
+- **Data Structure:** TypeScript (for static data definition)
+
+## Component Architecture
+
+### 1. Data Definitions (`content/experience.ts` & `content/education.ts`)
+Create static data files to drive the timeline content.
+
+**`content/experience.ts` Data Seed:**
+- *Role:* Executive Head, BAJA NITK
+- *Location:* Surathkal, India
+- *Duration:* 2024 - 2026
+- *Description:* Spearheaded the planning and execution of SAE-INDIA 2025, leading a 10+ member team and attracting over 150 attendees. Managed cross-functional coordination across design, manufacturing, and logistics teams.
+
+- *Role:* Cricket Team Member, NITK Cricket Club
+- *Location:* Surathkal, India
+- *Duration:* 2025 - 2026
+- *Description:* Represented the institute at inter-NIT cricket tournaments. Demonstrated consistent teamwork, discipline, and competitive spirit.
+
+**`content/education.ts` Data Seed:**
+- *Degree:* B.Tech in Metallurgical and Material Science Engineering (CGPA: 7)
+- *Institution:* National Institute of Technology Karnataka (NITK)
+- *Location:* Surathkal, India
+- *Graduation:* May 2027
+
+- *Degree:* PCMC (Score: 85)
+- *Institution:* Shaheen Independent PU College
+- *Location:* Hyderabad, India
+
+- *Degree:* Joint Entrance Exam (PCM, Percentile: 95.75)
+- *Location:* Hyderabad, India
+
+### 2. Timeline Components (`components/Timeline.tsx`, `components/TimelineItem.tsx`)
+- Build a reusable vertical timeline structure.
+- **Styling Rules:**
+  - Use a vertical line (e.g., `border-l-2 border-slate-700`) connecting the entries.
+  - Use terminal-style indicators for nodes (e.g., green dots or terminal carets `>`).
+  - Text should utilize monospaced fonts where appropriate to match the terminal vibe.
+
+### 3. Experience & Education Section (`components/ExperienceEducation.tsx`)
+- This component will wrap the Timeline and map over the data files.
+- **Animations:** Implement `framer-motion` so that each `TimelineItem` fades in and slides slightly upward (`whileInView`) as the user scrolls down the page.
+
+## Rules for Implementation
+- **Strict Data-Driven Approach:** Do not hardcode the experience and education data inside the React components. They must be imported from the `content/` TypeScript files.
+- **No GitHub Links:** As per previous global instructions, do not include GitHub links or icons next to project or experience entries.
+- **Extracurricular Placement:** The section containing the BAJA NITK and Cricket team experience must be titled "Leadership/Extracurricular" and must be placed in the final section of the page layout, immediately before the footer.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] The `ExperienceEducation.tsx` component correctly maps data from `experience.ts` and `education.ts`.
+- [ ] Timeline nodes animate into view smoothly on scroll using Framer Motion.
+- [ ] The section titled "Leadership/Extracurricular" appears at the absolute bottom of the main content layout.
+- [ ] The aesthetic matches the dark terminal/IDE theme.

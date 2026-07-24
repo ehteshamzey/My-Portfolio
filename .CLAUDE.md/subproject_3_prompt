@@ -1,0 +1,258 @@
+# Subproject 3 — Hero + About + Skills Section
+
+## Context
+
+This is a **Next.js 14+ (App Router) + TypeScript + Tailwind CSS + Framer Motion** personal portfolio project.
+
+**Subprojects 1 & 2 are complete.** The repo already has:
+- Working scaffold with TypeScript, App Router, Tailwind CSS, ESLint, Prettier, path aliases.
+- Tailwind theme config with CSS custom properties for light/dark mode (`darkMode: 'class'`).
+- `next-themes` integration with a `ThemeProvider` and `ThemeToggle` button.
+- Root layout (`app/layout.tsx`) wired with fonts, `ThemeProvider`, `Navbar`, and `Footer`.
+- Reusable UI primitives in `components/ui/`: `Container`, `Section`, `Button`, `Badge`, `Card` (with sub-components) — all using the `cn()` utility from `lib/utils.ts`.
+- Responsive `Navbar` (sticky, backdrop-blur, Framer Motion mobile menu) and `Footer`.
+- `npm run build` and `npm run lint` both pass cleanly.
+
+Your job is **Subproject 3: Hero + About + Skills Section** — the landing page's above-the-fold hero, a personal bio/about block, and a categorized skills grid. After this subproject, `npm run build` must still pass, and the home page should display all three sections with scroll animations.
+
+---
+
+## Content Data (From Resume — Use as Placeholder)
+
+Use the following real data to populate the content files. The user will refine wording later, but the structure and data must be accurate now.
+
+### Personal Info
+
+```
+Name:        Ehtesham Zeya
+Headline:    Data Enthusiast & Software Developer
+Tagline:     Turning raw data into real-world impact — one pipeline at a time.
+Location:    Surathkal, India
+Email:       (use placeholder: hello@ehteshamzeya.dev)
+GitHub:      https://github.com/ehteshamzey  (placeholder)
+LinkedIn:    https://linkedin.com/in/ehteshamzeya  (placeholder)
+```
+
+### About / Bio
+
+```
+A results-driven data enthusiast with a background in Materials and Metallurgy,
+currently pursuing B.Tech at NIT Karnataka. Skilled in applying Python, SQL, and
+machine learning to solve real-world problems. Experienced in data cleaning,
+exploratory data analysis, predictive modeling, and communicating insights through
+compelling visualizations and dashboards.
+
+Beyond academics, I've led a 10+ member team as Executive Head of BAJA NITK and
+represented my institute at inter-NIT cricket tournaments — experiences that shaped
+my ability to coordinate, communicate, and deliver under pressure.
+```
+
+### Skills (Categorized)
+
+```
+Category: "Languages & Querying"
+  - Python, SQL, JavaScript, TypeScript
+
+Category: "Libraries & Frameworks"
+  - Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, React, Node.js, Next.js
+
+Category: "Data & Analytics"
+  - Data Cleaning, EDA, ETL, Feature Engineering, Predictive Modeling,
+    Dimensionality Reduction, Statistical Analysis
+
+Category: "Tools & Platforms"
+  - Jupyter Notebook, Git, Docker, Vercel, VS Code
+
+Category: "Core Competencies"
+  - Data Modeling, Business Intelligence, Dashboarding, System Architecture,
+    Communication, Team Leadership
+```
+
+---
+
+## Deliverables
+
+### 1. Content Data Files
+
+Create typed data files that the components will import. No content should be hardcoded inside components.
+
+| File | Export | Shape |
+|------|--------|-------|
+| `content/siteConfig.ts` | `siteConfig` | `{ name, headline, tagline, location, email, github, linkedin, twitter?, resumeUrl }` |
+| `content/about.ts` | `aboutData` | `{ paragraphs: string[], profileImage: string }` (image path points to `public/images/profile.jpg` — use a placeholder comment if no image exists yet) |
+| `content/skills.ts` | `skillCategories` | `Array<{ category: string, skills: Array<{ name: string, icon?: string }> }>` |
+
+- All exports must be `as const` satisfies or explicitly typed with a shared type from `lib/types.ts`.
+- Create `lib/types.ts` (or extend it if it already exists) with the relevant interfaces: `SiteConfig`, `AboutData`, `SkillCategory`, `Skill`.
+
+### 2. Hero Section
+
+Create `components/sections/hero.tsx`:
+
+- **Layout**: Full viewport height (`min-h-[calc(100vh-4rem)]` to account for navbar) centered content.
+- **Content** (pulled from `siteConfig`):
+  - Small greeting text: `Hi, I'm` (muted, subtle).
+  - Name: large display heading (`text-4xl sm:text-5xl lg:text-6xl font-bold`).
+  - Headline: secondary text below name.
+  - Tagline: one-liner in muted color.
+  - CTA buttons row: "View Projects" (primary, scrolls to `#projects`) + "Download Resume" (outline, links to `resumeUrl`).
+  - Social icons row: GitHub, LinkedIn, Email — small icon links.
+- **Animation** (Framer Motion):
+  - Staggered fade-up entrance: greeting → name → headline → tagline → buttons, each delayed ~0.1s.
+  - Use `motion.div` with `initial={{ opacity: 0, y: 20 }}`, `animate={{ opacity: 1, y: 0 }}`, and `transition={{ delay }}`.
+- **Optional visual flair**: A subtle gradient blob or grid-dot pattern in the background (CSS only, no heavy assets). Keep it tasteful and not distracting.
+- Uses `Container` and `Section` from `components/ui/`.
+
+### 3. About Section
+
+Create `components/sections/about.tsx`:
+
+- **Layout**: Two-column on desktop (image left, text right), stacks vertically on mobile.
+- **Content** (pulled from `aboutData`):
+  - Profile image: use `next/image` with `public/images/profile.jpg`. For now, create a placeholder SVG or colored div with initials "EZ" if the actual image doesn't exist. Add `alt` text.
+  - Bio paragraphs: render each paragraph from `aboutData.paragraphs` as a `<p>` tag.
+- **Animation** (Framer Motion):
+  - Scroll-triggered reveal: image slides in from the left, text slides in from the right.
+  - Use `motion.div` with `initial`, `whileInView`, `viewport={{ once: true, amount: 0.3 }}`.
+- **Section anchor**: `id="about"` so navbar link `/#about` scrolls here.
+- Uses `Container` and `Section`.
+
+### 4. Skills Section
+
+Create `components/sections/skills.tsx`:
+
+- **Layout**: Section heading ("Skills" or "What I Work With"), then a grid of skill categories.
+  - Each category is a `Card` with the category name as `CardTitle` and the skills listed inside as `Badge` components.
+  - Grid: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` — responsive.
+- **Content**: Driven entirely from `skillCategories` in `content/skills.ts`. Adding a new skill or category should require only a data file edit — zero component changes.
+- **Animation** (Framer Motion):
+  - Cards animate in with a staggered fade-up on scroll into view.
+  - Use a parent `motion.div` with `variants` for stagger children pattern:
+    ```
+    container: { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }
+    item: { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }
+    ```
+- **Section anchor**: `id="skills"`.
+- Uses `Container`, `Section`, `Card`, `CardHeader`, `CardTitle`, `CardContent`, `Badge`.
+
+### 5. Compose on Home Page
+
+Update `app/page.tsx` to render the three sections in order:
+
+```tsx
+import { Hero } from "@/components/sections/hero";
+import { About } from "@/components/sections/about";
+import { Skills } from "@/components/sections/skills";
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <About />
+      <Skills />
+    </>
+  );
+}
+```
+
+Remove any placeholder content from Subproject 2 that was in `page.tsx`.
+
+### 6. Profile Image Placeholder
+
+If `public/images/profile.jpg` doesn't exist yet, create a simple fallback:
+
+- Either generate a placeholder SVG file at `public/images/profile-placeholder.svg` (a circle with initials "EZ").
+- Or handle it in the `About` component with a conditional: if image fails to load, show a styled `<div>` with initials.
+- The component must NOT crash if the image file is missing.
+
+---
+
+## Technical Constraints
+
+- **All content comes from `content/` files** — no hardcoded strings in components (names, bios, skill lists, URLs). This makes future edits trivial.
+- **`"use client"` only where needed** — the Hero needs it for Framer Motion `animate`. About and Skills need it for `whileInView`. Consider extracting animation wrappers if you want to keep the data-rendering part as a server component, but a simple `"use client"` on each section file is acceptable for this subproject.
+- **Use `next/image`** for the profile image — don't use a raw `<img>` tag.
+- **Responsive at every breakpoint**: mobile (< 640px), tablet (640–1024px), desktop (> 1024px). Test all three.
+- **Respect the existing design system**: use only Tailwind classes that reference the CSS custom properties from Subproject 2 (e.g., `bg-background`, `text-foreground`, `text-muted-foreground`). Don't introduce new hardcoded colors.
+- **Smooth scrolling**: Ensure clicking "View Projects" in the hero smoothly scrolls to `#projects` (even though that section doesn't exist yet — it should scroll to the approximate area or do nothing gracefully). Add `scroll-behavior: smooth` to `globals.css` `html` if not already present.
+
+---
+
+## File Tree (New & Modified Files)
+
+```
+├── app/
+│   ├── globals.css              ← add scroll-behavior: smooth (if missing)
+│   └── page.tsx                 ← MODIFIED: render Hero, About, Skills sections
+├── components/
+│   └── sections/
+│       ├── hero.tsx             ← NEW: hero section with animated intro + CTAs
+│       ├── about.tsx            ← NEW: bio + profile image with scroll animation
+│       └── skills.tsx           ← NEW: categorized skill cards with stagger animation
+├── content/
+│   ├── siteConfig.ts            ← NEW: name, headline, tagline, social links
+│   ├── about.ts                 ← NEW: bio paragraphs, profile image path
+│   └── skills.ts                ← NEW: categorized skills array
+├── lib/
+│   └── types.ts                 ← NEW or MODIFIED: SiteConfig, AboutData, SkillCategory types
+└── public/
+    └── images/
+        └── profile-placeholder.svg  ← NEW: fallback avatar (or profile.jpg if provided)
+```
+
+---
+
+## Verification & Testing (Run All Before Marking Complete)
+
+### Build & Lint
+1. `npm run build` — must pass with zero errors and zero type errors.
+2. `npm run lint` — must pass cleanly.
+
+### Visual — Hero Section
+3. Open `http://localhost:3000`. The hero section should:
+   - Fill the viewport (minus navbar height).
+   - Show "Hi, I'm" → "Ehtesham Zeya" → headline → tagline in staggered animation on load.
+   - Display two CTA buttons: "View Projects" and "Download Resume".
+   - Display social icon links (GitHub, LinkedIn, Email) that open in new tabs.
+   - Look good in both light and dark mode (toggle to verify).
+
+### Visual — About Section
+4. Scroll down past the hero. The about section should:
+   - Animate into view (image from left, text from right) as you scroll.
+   - Show the profile image (or placeholder with initials "EZ") on the left and bio text on the right (desktop).
+   - Stack vertically on mobile (image on top, text below).
+   - `id="about"` — clicking "About" in the navbar should smooth-scroll here.
+
+### Visual — Skills Section
+5. Continue scrolling. The skills section should:
+   - Show a heading ("Skills" or similar).
+   - Display skill categories as cards in a responsive grid (1 col mobile → 2 col tablet → 3 col desktop).
+   - Each card shows the category name and skill badges inside.
+   - Cards animate in with stagger effect on scroll.
+   - Verify all 5 categories from the data file render with correct skills.
+   - `id="skills"` anchor works.
+
+### Dark Mode
+6. Toggle dark mode. Verify:
+   - Hero background, text, buttons all switch correctly.
+   - About section image border/shadow and text adapt.
+   - Skill cards, badges, and category titles all use dark palette.
+   - No hardcoded colors visible (everything should invert cleanly).
+
+### Mobile Responsiveness
+7. Open DevTools → mobile viewport (375px width). Verify:
+   - Hero text sizes scale down, buttons stack or wrap if needed.
+   - About section stacks to single column.
+   - Skills grid becomes single column.
+   - Nothing overflows horizontally. No text gets cut off.
+
+### Data-Driven Test
+8. Open `content/skills.ts`, add a new dummy category (e.g., `{ category: "Testing", skills: [{ name: "Vitest" }, { name: "Playwright" }] }`). Save and confirm the new card appears automatically on the page without touching any component file. Remove the dummy category after verifying.
+
+### Animation Quality
+9. Reload the page and watch the hero entrance animation — it should feel smooth (no jank, no layout shift). Scroll slowly through About and Skills — animations should trigger once when each section enters ~30% of the viewport and not replay on scroll back up (`viewport: { once: true }`).
+
+### Link Behavior
+10. Click "View Projects" in hero — should smooth-scroll (even if the target section doesn't exist yet, it should not throw an error or navigate away). Click "Download Resume" — should open a link (placeholder is fine). Social icons should open in new tabs (`target="_blank"`, `rel="noopener noreferrer"`).
+
+---

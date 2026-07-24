@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const VARIANT_CLASSES = {
   default: "bg-primary text-primary-foreground",
-  secondary: "bg-secondary text-secondary-foreground",
+  secondary: "border border-primary/40 bg-transparent text-primary",
   outline: "border border-border text-foreground",
 } as const;
 
@@ -18,7 +18,7 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+        "inline-flex items-center px-2.5 py-0.5 text-xs font-medium",
         VARIANT_CLASSES[variant],
         className,
       )}
