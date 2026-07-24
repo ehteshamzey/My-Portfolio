@@ -1,0 +1,30 @@
+---
+title: "A Quick Guide to CTF Forensics"
+date: "2026-05-20"
+description: "Walkthrough of common techniques for network analysis and QR code forensics."
+tags: ["CTF", "Forensics", "Security"]
+---
+
+Forensics challenges in CTFs tend to reward the same handful of techniques applied carefully rather than any single clever trick. This post walks through two of the most common categories: network traffic analysis and image/QR code artifacts.
+
+## Network Analysis
+
+Packet captures are usually the starting point. Before diving into a GUI, it's often faster to filter directly from the command line to see what protocols and hosts are actually present.
+
+```bash
+tshark -r capture.pcapng -Y "http.request" -T fields -e http.host -e http.request.uri
+```
+
+From there, following a TCP stream (or exporting HTTP objects) will usually surface anything interesting — credentials sent in cleartext, a downloaded file, or an exfiltrated flag hidden in a header. If the capture contains DNS traffic, it's also worth checking for unusually long subdomains, which is a classic sign of DNS-based exfiltration.
+
+## QR Code Forensics
+
+QR codes show up more often than you'd expect, sometimes embedded inside a larger image, corrupted, or partially obscured. A quick first pass with a CLI decoder saves time before reaching for image editing tools:
+
+```bash
+zbarimg --raw suspicious_qr.png
+```
+
+If the decoder fails, the usual next steps are to check the image for multiple layers or hidden data (`steghide`, `binwalk`), try upscaling or increasing contrast, or manually reconstructing the finder patterns if the QR code has been partially redacted.
+
+Neither of these categories requires exotic tooling — the skill is mostly in knowing which command to reach for first, and reading the output carefully enough to notice what's out of place.

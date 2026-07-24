@@ -1,0 +1,42 @@
+---
+title: "Applying Machine Learning to Materials Science"
+date: "2026-06-15"
+description: "Exploring predictive modeling for metallurgical processes."
+tags: ["Machine Learning", "Python", "Materials Science"]
+---
+
+Metallurgical processes have historically relied on empirical rules of thumb and physics-based simulations to predict how alloy composition and processing conditions affect final material properties. These approaches work, but they are slow to iterate on and don't scale well when the design space grows large.
+
+Over the past few months I've been experimenting with predictive modeling as a complement to traditional process engineering — training regression models on historical batch data to estimate mechanical properties like tensile strength before a single sample is physically tested. The goal isn't to replace domain expertise, but to narrow the search space so metallurgists can spend their time on the promising candidates.
+
+Key techniques explored:
+
+- Feature engineering from spectroscopic and compositional data
+- Regression vs. ensemble methods (Ridge, Random Forest, Gradient Boosting)
+- Cross-validation strategy for small, imbalanced batch datasets
+- Model interpretability via feature importance and partial dependence
+
+A minimal example of the kind of pipeline this ends up looking like:
+
+```python
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv("alloy_properties.csv")
+X = df.drop(columns=["tensile_strength"])
+y = df["tensile_strength"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+model = RandomForestRegressor(n_estimators=200, random_state=42)
+model.fit(X_train, y_train)
+
+print("R^2 on holdout:", model.score(X_test, y_test))
+```
+
+The interesting part isn't the model itself — it's the feedback loop. Once predictions are compared against real test results, the errors point back to which process variables are under-instrumented or poorly understood, which is often more valuable than the prediction itself.
+
+This is still an early-stage exploration, but the early results are promising enough to keep digging into feature selection and uncertainty estimation next.

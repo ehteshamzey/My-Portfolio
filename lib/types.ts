@@ -49,3 +49,17 @@ export interface Education {
   location: string;
   graduation?: string;
 }
+
+export interface BlogPostMeta {
+  slug: string;
+  title: string;
+  date: string;
+  description: string;
+  tags: string[];
+  readingTime: number;
+  wordCount: number;
+}
+
+export interface BlogPost extends BlogPostMeta {
+  content: string;
+}

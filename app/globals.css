@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -139,4 +140,26 @@ body {
   margin-left: 0.15em;
   background: currentColor;
   animation: blink-cursor 1s step-end infinite;
+}
+
+.dark .prose-invert {
+  --tw-prose-invert-body: var(--color-foreground);
+  --tw-prose-invert-headings: var(--color-primary);
+  --tw-prose-invert-links: var(--color-primary);
+  --tw-prose-invert-bold: var(--color-foreground);
+  --tw-prose-invert-code: var(--color-primary);
+  --tw-prose-invert-pre-code: var(--color-foreground);
+  --tw-prose-invert-pre-bg: var(--color-card);
+  --tw-prose-invert-quotes: var(--color-muted-foreground);
+  --tw-prose-invert-quote-borders: var(--color-border);
+  --tw-prose-invert-hr: var(--color-border);
+  --tw-prose-invert-bullets: var(--color-primary);
+  --tw-prose-invert-counters: var(--color-muted-foreground);
+  --tw-prose-invert-th-borders: var(--color-border);
+  --tw-prose-invert-td-borders: var(--color-border);
+  --tw-prose-invert-captions: var(--color-muted-foreground);
+}
+
+.prose-invert pre {
+  border: 1px solid var(--color-border);
 }

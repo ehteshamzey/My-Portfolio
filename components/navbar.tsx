@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -11,16 +12,22 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const NAV_LINKS = [
   { label: "~", href: "/" },
-  { label: "about", href: "/#about" },
-  { label: "skills", href: "/#skills" },
-  { label: "projects", href: "/#projects" },
-  { label: "blog", href: "/blog" },
-  { label: "contact", href: "/#contact" },
+  { label: "about", href: "/#about", sectionId: "about" },
+  { label: "skills", href: "/#skills", sectionId: "skills" },
+  { label: "projects", href: "/#projects", sectionId: "projects" },
+  { label: "blog", href: "/#blog", sectionId: "blog" },
+  { label: "contact", href: "/#contact", sectionId: "contact" },
 ];
+
+const SECTION_IDS = NAV_LINKS.map((link) => link.sectionId).filter(
+  (id): id is string => Boolean(id),
+);
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -34,6 +41,35 @@ export function Navbar() {
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-20% 0px -70% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  function isActive(link: (typeof NAV_LINKS)[number]) {
+    if (link.sectionId === "blog" && pathname.startsWith("/blog")) return true;
+    if (link.sectionId) return pathname === "/" && activeSection === link.sectionId;
+    return false;
+  }
 
   return (
     <header className="border-border bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur">
@@ -63,7 +99,10 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-muted-foreground before:text-primary/60 hover:text-primary focus-visible:ring-ring text-sm transition-colors before:mr-0.5 before:content-['./'] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className={cn(
+                "hover:text-primary focus-visible:ring-ring text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                isActive(link) ? "text-primary" : "text-muted-foreground",
+              )}
             >
               {link.label}
             </Link>
@@ -109,7 +148,10 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="text-muted-foreground before:text-primary/60 hover:bg-accent hover:text-primary px-3 py-2 text-sm transition-colors before:mr-1 before:content-['./']"
+                  className={cn(
+                    "hover:bg-accent hover:text-primary px-3 py-2 text-sm transition-colors",
+                    isActive(link) ? "text-primary" : "text-muted-foreground",
+                  )}
                 >
                   {link.label}
                 </Link>

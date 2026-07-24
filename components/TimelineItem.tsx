@@ -11,10 +11,17 @@ interface TimelineItemProps {
   title: string;
   subtitle: string;
   meta?: string;
+  secondaryMeta?: string;
   description?: string;
 }
 
-export function TimelineItem({ title, subtitle, meta, description }: TimelineItemProps) {
+export function TimelineItem({
+  title,
+  subtitle,
+  meta,
+  secondaryMeta,
+  description,
+}: TimelineItemProps) {
   return (
     <motion.div
       variants={itemVariants}
@@ -32,6 +39,9 @@ export function TimelineItem({ title, subtitle, meta, description }: TimelineIte
         {subtitle}
         {meta ? ` — ${meta}` : ""}
       </p>
+      {secondaryMeta ? (
+        <p className="text-muted-foreground mt-0.5 font-mono text-xs">{secondaryMeta}</p>
+      ) : null}
       {description ? <p className="text-foreground mt-3 leading-relaxed">{description}</p> : null}
     </motion.div>
   );
