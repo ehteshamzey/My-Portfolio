@@ -1,6 +1,7 @@
 export interface SiteConfig {
   name: string;
   headline: string;
+  roles: string[];
   tagline: string;
   location: string;
   email: string;

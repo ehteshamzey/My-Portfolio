@@ -3,7 +3,8 @@ import type { SiteConfig } from "@/lib/types";
 export const siteConfig: SiteConfig = {
   name: "Ehtesham Zeya",
   headline: "Data Enthusiast & Software Developer",
-  tagline: "Turning raw data into real-world impact — one pipeline at a time.",
+  roles: ["Data Enthusiast", "Software Developer", "Automation Engineer", "Open-Source Enthusiast"],
+  tagline: "Building quality through automation",
   location: "Surathkal, India",
   email: "hello@ehteshamzeya.dev",
   phone: "+91 6207149081",
