@@ -35,3 +35,17 @@ export interface Project {
   description: string;
   tags: string[];
 }
+
+export interface Experience {
+  role: string;
+  location: string;
+  duration: string;
+  description: string;
+}
+
+export interface Education {
+  degree: string;
+  institution?: string;
+  location: string;
+  graduation?: string;
+}
