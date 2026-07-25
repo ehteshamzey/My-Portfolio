@@ -3,7 +3,7 @@ import type { Education } from "@/lib/types";
 export const education = [
   {
     degree: "B.Tech in Metallurgical and Material Science Engineering",
-    institution: "NITK",
+    institution: "NIT-Surathkal",
     location: "Mangalore, India",
     graduation: "May 2027",
   },
@@ -14,3 +14,4 @@ export const education = [
     graduation: "April 2023",
   }
 ] satisfies Education[];
+

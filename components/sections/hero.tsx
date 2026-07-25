@@ -6,10 +6,9 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 
 import { siteConfig } from "@/content/siteConfig";
-import { aboutData } from "@/content/about";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { Button } from "@/components/ui/button";
+import { TypewriterText } from "@/components/TypewriterText";
 import {
   GithubIcon,
   LinkedinIcon,
@@ -37,6 +36,8 @@ const SOCIAL_LINKS = [
     : []),
 ];
 
+const HERO_IMAGE = "/images/profile-hero.jpg";
+
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -63,7 +64,7 @@ function HeroAvatar() {
   return (
     <div className="border-primary/50 relative h-28 w-28 overflow-hidden rounded-full border-2 shadow-[0_0_30px_-8px_var(--color-primary)] sm:h-32 sm:w-32">
       <Image
-        src={aboutData.profileImage}
+        src={HERO_IMAGE}
         alt={`Portrait of ${siteConfig.name}`}
         fill
         sizes="8rem"
@@ -116,7 +117,8 @@ export function Hero() {
           {...fadeUp(0.3)}
           className="text-foreground mt-4 flex items-center gap-2 text-lg font-medium sm:text-xl"
         >
-          <span className="text-muted-foreground">&gt;</span> {siteConfig.headline}
+          <span className="text-muted-foreground">&gt;</span>
+          <TypewriterText words={siteConfig.roles} />
         </motion.p>
 
         <motion.p {...fadeUp(0.4)} className="text-muted-foreground mt-4 max-w-xl text-base">
@@ -126,20 +128,6 @@ export function Hero() {
         <motion.div
           {...fadeUp(0.5)}
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
-        >
-          <Button asChild size="lg">
-            <a href="#projects">View Projects</a>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href={siteConfig.resumeUrl} target="_blank" rel="noopener noreferrer">
-              Download Resume
-            </a>
-          </Button>
-        </motion.div>
-
-        <motion.div
-          {...fadeUp(0.6)}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
           {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
             <a
