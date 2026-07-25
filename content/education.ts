@@ -12,6 +12,5 @@ export const education = [
     institution: "Shaheen Independent PU College",
     location: "Hyderabad, India",
     graduation: "April 2023",
-  }
+  },
 ] satisfies Education[];
-

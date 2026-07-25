@@ -1,25 +1,14 @@
-import { Mail, MapPin } from "lucide-react";
+import { Mail } from "lucide-react";
 
-import { siteConfig } from "@/content/siteConfig";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { Card, CardContent } from "@/components/ui/card";
-import { GithubIcon, LinkedinIcon, PhoneIcon, TwitterIcon } from "@/components/icons/social-icons";
+import { ContactForm } from "@/components/ContactForm";
+import { Comments } from "@/components/Comments";
+import { PhoneIcon } from "@/components/icons/social-icons";
 
-const CONTACT_DETAILS = [
-  { label: "email", value: siteConfig.email, href: `mailto:${siteConfig.email}`, icon: Mail },
-  ...(siteConfig.phone
-    ? [{ label: "phone", value: siteConfig.phone, href: `tel:${siteConfig.phone}`, icon: PhoneIcon }]
-    : []),
-  { label: "location", value: siteConfig.location, href: undefined, icon: MapPin },
-];
-
-const SOCIAL_LINKS = [
-  { label: "GitHub", href: siteConfig.github, icon: GithubIcon },
-  { label: "LinkedIn", href: siteConfig.linkedin, icon: LinkedinIcon },
-  ...(siteConfig.twitter
-    ? [{ label: "Twitter / X", href: siteConfig.twitter, icon: TwitterIcon }]
-    : []),
+const QUICK_LINKS = [
+  { label: "Email", href: "mailto:ehteshamzeya27@gmail.com", icon: Mail },
+  { label: "Call", href: "tel:+916207149081", icon: PhoneIcon },
 ];
 
 export function Contact() {
@@ -27,55 +16,43 @@ export function Contact() {
     <Section id="contact" className="scroll-mt-24">
       <Container>
         <p className="text-primary text-center font-mono text-sm">
-          <span className="text-muted-foreground">$</span> cat contact.txt
+          <span className="text-muted-foreground">$</span> cat contact.yaml
         </p>
         <h2 className="text-foreground mt-2 text-center text-3xl font-bold tracking-tight sm:text-4xl">
           Get in Touch
         </h2>
 
-        <Card className="mx-auto mt-10 max-w-lg">
-          <CardContent className="space-y-4 p-6 sm:p-8">
-            {CONTACT_DETAILS.map(({ label, value, href, icon: Icon }) => {
-              const row = (
-                <span className="flex items-center gap-3 font-mono text-sm">
-                  <Icon className="text-primary h-4 w-4 shrink-0" aria-hidden="true" />
-                  <span className="text-muted-foreground w-20 shrink-0">{label}</span>
-                  <span className="text-foreground">{value}</span>
-                </span>
-              );
+        <div className="border-border mx-auto mt-10 grid max-w-4xl grid-cols-1 border md:grid-cols-2">
+          <div className="border-border bg-card border-b p-6 md:border-r md:border-b-0 md:p-8">
+            <div className="border-border mb-4 flex items-center justify-between border-b pb-3">
+              <span className="text-muted-foreground font-mono text-xs">contact.yaml</span>
+              <span className="flex items-center gap-1.5">
+                <span className="bg-destructive/70 h-2.5 w-2.5 rounded-full" aria-hidden="true" />
+                <span className="bg-primary/50 h-2.5 w-2.5 rounded-full" aria-hidden="true" />
+                <span className="bg-primary/70 h-2.5 w-2.5 rounded-full" aria-hidden="true" />
+              </span>
+            </div>
 
-              return (
-                <div key={label}>
-                  {href ? (
-                    <a
-                      href={href}
-                      className="focus-visible:ring-ring rounded-sm transition-colors hover:opacity-80 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                    >
-                      {row}
-                    </a>
-                  ) : (
-                    row
-                  )}
-                </div>
-              );
-            })}
-
-            <div className="border-border flex items-center gap-4 border-t pt-4">
-              {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+            <div className="mt-6 flex flex-wrap gap-3">
+              {QUICK_LINKS.map(({ label, href, icon: Icon }) => (
                 <a
                   key={label}
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="text-muted-foreground hover:text-primary focus-visible:ring-ring transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                  className="border-border bg-card text-muted-foreground hover:border-primary/60 hover:text-primary focus-visible:ring-ring focus-visible:ring-offset-background flex w-20 flex-col items-center gap-2 rounded-lg border px-3 py-3 text-xs transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                 >
                   <Icon className="h-5 w-5" aria-hidden="true" />
+                  {label}
                 </a>
               ))}
             </div>
-          </CardContent>
-        </Card>
+
+            <Comments />
+          </div>
+
+          <div className="bg-card p-6 md:p-8">
+            <ContactForm />
+          </div>
+        </div>
       </Container>
     </Section>
   );

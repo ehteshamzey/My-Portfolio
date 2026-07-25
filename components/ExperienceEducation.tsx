@@ -1,4 +1,3 @@
-import { experience } from "@/content/experience";
 import { education } from "@/content/education";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -28,23 +27,6 @@ export function ExperienceEducation() {
                 subtitle={item.institution ?? item.location}
                 meta={item.institution ? item.graduation : undefined}
                 secondaryMeta={item.institution ? item.location : undefined}
-              />
-            ))}
-          </Timeline>
-        </div>
-
-        <h3 className="text-foreground mt-16 text-center text-xl font-bold tracking-tight">
-          Leadership/Extracurricular
-        </h3>
-        <div className="mx-auto mt-10 max-w-2xl">
-          <Timeline>
-            {experience.map((item) => (
-              <TimelineItem
-                key={item.role}
-                title={item.role}
-                subtitle={item.location}
-                meta={item.duration}
-                description={item.description}
               />
             ))}
           </Timeline>

@@ -70,7 +70,11 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
         className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
         {visibleProjects.map((project) => (
-          <motion.div key={project.slug} variants={itemVariants} transition={{ duration: 0.4 }}>
+          <motion.div
+            key={project.slug}
+            variants={itemVariants}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
             <ProjectCard project={project} />
           </motion.div>
         ))}

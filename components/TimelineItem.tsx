@@ -25,7 +25,7 @@ export function TimelineItem({
   return (
     <motion.div
       variants={itemVariants}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className="border-border relative border-l-2 pb-10 pl-6 last:pb-0"
     >
       <span
