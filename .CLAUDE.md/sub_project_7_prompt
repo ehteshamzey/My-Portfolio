@@ -1,0 +1,49 @@
+# Spec Document: Subproject 7 - Contact & Resume
+
+## Overview
+This subproject implements the Contact section, an API route placeholder for a contact form, and a dedicated Resume view/download page. The Contact section must utilize a split-pane layout, where the left side mimics a raw configuration file (like `contact.yaml`) and the right side hosts a clean web form.
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **API:** Next.js Route Handlers (for the form placeholder)
+
+## Component Architecture
+
+### 1. Contact Section (`components/Contact.tsx`)
+- Implement a responsive split-pane layout (stacked vertically on mobile, side-by-side on desktop).
+- **Left Pane (`contact.yaml` style):**
+  - Style a code block to look like an open YAML file.
+  - **Seed Data:**
+    ```yaml
+    email: "ehteshamzeya27@gmail.com"
+    phone: "+91 6207149081"
+    github: "[github.com/ehteshamzeya](https://github.com/ehteshamzeya)"
+    linkedin: "[www.linkedin.com/in/ehteshamzeya](https://www.linkedin.com/in/ehteshamzeya)"
+    status: "open to opportunities"
+    ```
+- **Right Pane (Contact Form):**
+  - Create standard input fields for Name, Email, Subject, and Message.
+  - Style the inputs with dark backgrounds, green or subtle slate borders, and monospace placeholder text.
+  - The submit button should mimic a terminal execution command (e.g., `[ Execute Send ]` or `./send.sh`).
+
+### 2. Form API Route (`app/api/contact/route.ts`)
+- Create a Next.js API route that accepts a POST request from the contact form.
+- **Rule:** Do not wire up a real email service (like SendGrid or Resend) yet. Simply parse the incoming JSON, log it to the server console, and return a `200 OK` JSON response with a success message.
+
+### 3. Resume Page (`app/resume/page.tsx`)
+- Create a dedicated page for viewing and downloading the resume.
+- Place a dummy `resume.pdf` file inside the `public/` directory (create a placeholder PDF or use a blank text file renamed to `.pdf` for testing).
+- Provide a prominent, terminal-styled download button (e.g., `$ wget ./resume.pdf`).
+- Optionally, render an embedded PDF viewer using an `<iframe>` or an `<object>` tag pointing to `/resume.pdf`.
+
+## Rules for Implementation
+- **Styling:** Maintain the dark-mode developer vibe (`bg-slate-900`, monospace fonts for technical data). 
+- **Consistency:** Ensure the GitHub link remains confined to the contact block and footer. Do not accidentally render GitHub links next to any project cards, maintaining adherence to the established project section rules.
+- **Client Components:** The Contact form will require user interaction and state management, so ensure the form sub-component uses the `"use client"` directive.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] The Contact section correctly displays the `contact.yaml` block with the provided seed data.
+- [ ] Submitting the contact form triggers a network request to `/api/contact` and returns a successful mock response.
+- [ ] The Resume page (`/resume`) loads correctly and contains a functional download link pointing to `/resume.pdf`.
