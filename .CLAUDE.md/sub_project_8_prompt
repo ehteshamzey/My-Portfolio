@@ -1,0 +1,39 @@
+# Spec Document: Subproject 8 - Animations & Micro-interactions
+
+## Overview
+This subproject introduces global and component-level animations to the application using Framer Motion. The goal is to enhance the user experience with scroll-triggered element reveals, subtle page transitions, and terminal-themed micro-interactions, ensuring the app feels responsive and cohesive.
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion (`framer-motion`)
+
+## Component Architecture
+
+### 1. Scroll Progress Indicator (`components/ScrollProgress.tsx`)
+- Implement a fixed element that tracks the user's scroll percentage down the page.
+- **Styling:** Instead of a standard corporate progress bar, style it as a terminal status line fixed at the bottom right or top of the screen (e.g., `[ Scroll: 45% ]` or a thin `bg-green-500` 1px line that grows horizontally).
+- Use Framer Motion's `useScroll` and `useSpring` hooks to calculate and animate the progress.
+
+### 2. Page Transitions (`components/PageTransition.tsx`)
+- Create a wrapper component for Next.js routes to handle entry and exit animations.
+- **Animation Style:** A subtle, quick opacity fade combined with a very slight vertical slide (e.g., `y: 10` to `y: 0`). It should feel like a terminal screen clearing and redrawing quickly, not a slow cinematic fade.
+- Wrap the main children in `app/layout.tsx` or individual `page.tsx` files using Framer Motion's `<AnimatePresence>`.
+
+### 3. Micro-interactions & Hover States
+- Update existing core components (`Button`, `Card`, Navigation links) with standardized hover states.
+- **Buttons:** Add a "terminal block cursor" effect on hover, or invert the colors (e.g., text becomes background color, background becomes text color).
+- **Project Cards / Timeline Items:** Ensure the existing `whileInView` scroll-reveal animations are snappy. Add a subtle border glow or bracket enclosure `[ ]` effect when a user hovers over a project card.
+
+## Rules for Implementation
+- **Animation Vibe:** Animations must feel crisp, linear, or slightly mechanical. Avoid overly springy, bouncy, or slow easings. Use linear or quick ease-out curves.
+- **Performance:** Ensure scroll animations (`whileInView`) use the `once: true` viewport option for heavy components so they don't re-trigger annoyingly every time the user scrolls up and down.
+- **Client Components:** Components utilizing Framer Motion hooks (like `useScroll`) must include the `"use client"` directive.
+- **Consistency:** Maintain the strict rule regarding project cards: no GitHub icons or links should be added during this component refactor.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] A scroll progress indicator correctly reflects the user's scroll depth on the main page.
+- [ ] Navigating between pages (e.g., from Home to a Blog post or Resume) triggers a clean, subtle transition animation.
+- [ ] Buttons and interactive elements feature terminal-appropriate hover states.
+- [ ] Scroll-triggered reveals on the Timeline and Project Grid fire reliably and cleanly.

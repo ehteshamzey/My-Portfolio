@@ -1,0 +1,48 @@
+# Spec Document: Subproject 10 - Testing, CI & Deployment
+
+## Overview
+This final subproject establishes the Continuous Integration (CI) pipeline, enforces code quality standards, and finalizes the deployment configuration. It includes a comprehensive final QA checklist to ensure all structural constraints and design aesthetics are met before going live.
+
+## Tech Stack & Tools
+- **CI/CD:** GitHub Actions
+- **Linting & Formatting:** ESLint, Prettier
+- **Deployment Target:** Vercel
+
+## Implementation Details
+
+### 1. Code Quality & Formatting (`package.json`, `.prettierrc`, `.eslintrc.json`)
+- Ensure `package.json` contains standard scripts for linting and formatting:
+  - `"lint": "next lint"`
+  - `"format": "prettier --write ."`
+- Configure Prettier to enforce consistent code style (e.g., single quotes, trailing commas).
+- Run a format pass over the entire codebase to eliminate any irregular spacing or extra vertical spacing inconsistencies across components.
+
+### 2. GitHub Actions Workflow (`.github/workflows/ci.yml`)
+- Create a GitHub Actions workflow file that triggers on Pull Requests and pushes to the `main` branch.
+- **Workflow Steps:**
+  1. Checkout code.
+  2. Setup Node.js.
+  3. Install dependencies (`npm ci`).
+  4. Run ESLint (`npm run lint`).
+  5. Run a test build (`npm run build`) to ensure there are no compilation or static generation errors.
+
+### 3. Project Documentation (`README.md`)
+- Overwrite the default Next.js README with comprehensive project documentation.
+- Include sections for:
+  - **About:** Personal portfolio of Ehtesham Zeya, built with Next.js and Tailwind CSS.
+  - **Local Development:** Step-by-step instructions on how to clone, install dependencies, and run `npm run dev`.
+  - **Deployment:** Instructions for deploying the repository to Vercel.
+
+### 4. Final QA & Structural Enforcement (CRITICAL)
+Before finalizing the build, a strict manual QA sweep must be simulated or verified in the code:
+- **Constraint 1:** Verify the "Leadership/Extracurricular" section is strictly placed as the final section of the page layout, immediately before the footer component.
+- **Constraint 2:** Verify that zero GitHub links or GitHub icons exist next to any project entries within the `ProjectGrid` or `ProjectCard` components.
+- **Constraint 3:** Verify responsive design functions correctly across mobile, tablet, and desktop viewports, specifically ensuring split-panes stack correctly on mobile.
+- **Constraint 4:** Verify the dark-mode "terminal/code-editor" aesthetic remains consistent without flashing white backgrounds on initial load.
+
+## Acceptance Criteria
+- [ ] ESLint and Prettier run successfully without throwing errors.
+- [ ] `.github/workflows/ci.yml` is correctly formatted and present in the repository.
+- [ ] `README.md` contains accurate local setup and deployment instructions.
+- [ ] Running `npm run build` succeeds locally, generating the `.next` production folder.
+- [ ] All strict QA constraints (Leadership section placement, no GitHub project links) are verified as successfully implemented in the codebase.

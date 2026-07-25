@@ -1,0 +1,46 @@
+# Spec Document: Subproject 9 - SEO, Meta, & Performance
+
+## Overview
+This subproject configures Next.js native SEO and metadata, implements a sitemap and `robots.txt`, establishes progressive web app (PWA) assets like `manifest.json`, and ensures strict image optimization across the application to achieve a 100/100 Lighthouse performance score.
+
+## Tech Stack & Libraries
+- **Framework:** Next.js (App Router Metadata API)
+- **Image Optimization:** `next/image`
+- **SEO Utilities:** Next.js dynamic route handlers (`sitemap.ts`, `robots.ts`)
+
+## Implementation Details
+
+### 1. Global & Per-Page Metadata (`app/layout.tsx` & Page Level)
+- Utilize the Next.js `Metadata` API in `layout.tsx` to set the global fallback metadata.
+  - **Site Name:** Ehtesham Zeya | Portfolio
+  - **Description:** Data enthusiast and engineering student specializing in Materials Science, AI, and predictive modeling.
+  - **OpenGraph/Twitter:** Configure `og:image` and `twitter:card` with a placeholder URL pointing to `public/og-image.png`.
+- Add specific `metadata` exports to individual pages:
+  - `app/projects/page.tsx`: Update title to "Projects | Ehtesham Zeya".
+  - `app/resume/page.tsx`: Update title to "Resume | Ehtesham Zeya".
+  - `app/blog/page.tsx`: Update title to "Terminal Blog | Ehtesham Zeya".
+
+### 2. Search Engine Directives (`app/sitemap.ts`, `app/robots.ts`)
+- **Sitemap:** Create `app/sitemap.ts` to programmatically generate a `sitemap.xml` that includes the root `/`, `/projects`, `/blog`, `/resume`, and dynamically maps over `content/blog.ts` and `content/projects.ts` for individual slugs.
+- **Robots.txt:** Create `app/robots.ts` to allow all web crawlers (`User-Agent: *`, `Allow: /`) and provide the absolute URL to the sitemap.
+
+### 3. App Icons & Manifest (`public/`)
+- Create a `manifest.json` in the `public/` directory establishing the terminal-themed app name, short name, and theme colors (e.g., `#0f172a` for standard dark slate).
+- Ensure a placeholder `favicon.ico` and `apple-icon.png` are referenced properly in the root layout.
+
+### 4. Performance & Image Optimization
+- Audit all components (Hero, About, Project Cards). If any standard HTML `<img>` tags were generated in previous steps, refactor them to use Next.js `<Image />` components.
+- Ensure all images have explicit `width`, `height`, and `alt` attributes to prevent Cumulative Layout Shift (CLS).
+
+## Rules for Implementation
+- **Regression Prevention (CRITICAL):** During metadata and code optimization, you must NOT alter the established page structures. 
+  1. Do NOT add GitHub links or icons next to any project entries.
+  2. The section titled "Leadership/Extracurricular" must remain in the final section of the page layout, immediately before the footer.
+- **Theme Color:** The metadata `theme-color` or `color-scheme` must be explicitly set to `dark` to prevent browser flashes of white before the CSS loads.
+
+## Acceptance Criteria
+- [ ] Next.js app compiles and runs with zero errors (`npm run dev`).
+- [ ] `<head>` contains valid title, description, OpenGraph, and Twitter metadata tags upon inspection.
+- [ ] `localhost:3000/sitemap.xml` and `localhost:3000/robots.txt` render valid data.
+- [ ] No raw `<img>` tags exist in the codebase (excluding markdown content parsed dynamically).
+- [ ] Lighthouse audit (via Chrome DevTools) scores 90+ in Performance, Accessibility, Best Practices, and SEO.
