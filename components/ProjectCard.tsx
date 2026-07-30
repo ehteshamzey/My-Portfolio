@@ -18,13 +18,19 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         className,
       )}
     >
-      <Card className="hover:border-primary/60 flex h-full flex-col transition-colors">
+      <Card className="hover:border-primary/60 flex h-full flex-col transition-all duration-150 hover:shadow-[0_0_0_1px_var(--color-primary)]">
         <CardHeader>
           <p className="text-muted-foreground font-mono text-xs">
             <span className="text-primary">$</span> open {project.slug}.md
           </p>
           <CardTitle className="text-primary group-hover:text-primary mt-1 text-lg">
+            <span className="text-muted-foreground opacity-0 transition-opacity duration-100 group-hover:opacity-100">
+              [
+            </span>
             {project.title}
+            <span className="text-muted-foreground opacity-0 transition-opacity duration-100 group-hover:opacity-100">
+              ]
+            </span>
           </CardTitle>
           <p className="text-muted-foreground font-mono text-xs">{project.date}</p>
         </CardHeader>

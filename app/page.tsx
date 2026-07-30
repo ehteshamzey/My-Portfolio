@@ -5,6 +5,7 @@ import { Projects } from "@/components/sections/projects";
 import { ExperienceEducation } from "@/components/ExperienceEducation";
 import { Blog } from "@/components/sections/blog";
 import { Contact } from "@/components/sections/contact";
+import { Leadership } from "@/components/Leadership";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <ExperienceEducation />
       <Blog />
       <Contact />
+      <Leadership />
     </>
   );
 }

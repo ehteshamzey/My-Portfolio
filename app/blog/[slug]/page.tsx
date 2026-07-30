@@ -44,11 +44,7 @@ export async function generateMetadata({
   return { title: `${post.title} — Blog`, description: post.description };
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();

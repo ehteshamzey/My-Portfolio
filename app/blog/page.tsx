@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Terminal Blog",
   description: "Writing on machine learning, security, and software engineering.",
 };
 
@@ -46,9 +46,7 @@ export default function BlogIndexPage() {
                 href={`/blog/${post.slug}`}
                 className="hover:bg-accent group flex flex-col gap-1 px-4 py-3 font-mono text-sm transition-colors sm:flex-row sm:items-center sm:gap-4"
               >
-                <span className="text-muted-foreground w-24 shrink-0">
-                  {formatDate(post.date)}
-                </span>
+                <span className="text-muted-foreground w-24 shrink-0">{formatDate(post.date)}</span>
                 <span className="text-muted-foreground w-28 shrink-0">
                   [{post.readingTime} min read]
                 </span>

@@ -38,7 +38,7 @@ export function Button({
   return (
     <Comp
       className={cn(
-        "focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+        "focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-colors duration-100 ease-linear after:ml-0.5 after:inline-block after:h-[1em] after:w-[0.55ch] after:translate-y-[0.1em] after:bg-current after:opacity-0 after:transition-opacity after:duration-100 after:content-[''] hover:after:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
         VARIANT_CLASSES[variant],
         SIZE_CLASSES[size],
         className,

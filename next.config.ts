@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   transpilePackages: ["next-mdx-remote"],
+  serverExternalPackages: ["better-sqlite3"],
 };
 
 export default nextConfig;

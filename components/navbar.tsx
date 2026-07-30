@@ -19,8 +19,8 @@ const NAV_LINKS = [
   { label: "contact", href: "/#contact", sectionId: "contact" },
 ];
 
-const SECTION_IDS = NAV_LINKS.map((link) => link.sectionId).filter(
-  (id): id is string => Boolean(id),
+const SECTION_IDS = NAV_LINKS.map((link) => link.sectionId).filter((id): id is string =>
+  Boolean(id),
 );
 
 export function Navbar() {
@@ -100,8 +100,9 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "hover:text-primary focus-visible:ring-ring text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-                isActive(link) ? "text-primary" : "text-muted-foreground",
+                "hover:text-primary focus-visible:ring-ring relative text-sm transition-colors duration-100 ease-linear focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                "after:bg-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:transition-[width] after:duration-150 after:ease-linear hover:after:w-full",
+                isActive(link) ? "text-primary after:w-full" : "text-muted-foreground",
               )}
             >
               {link.label}

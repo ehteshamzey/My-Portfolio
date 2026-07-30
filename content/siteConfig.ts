@@ -2,6 +2,7 @@ import type { SiteConfig } from "@/lib/types";
 
 export const siteConfig: SiteConfig = {
   name: "Ehtesham Zeya",
+  url: "https://ehteshamzeya.dev",
   headline: "Data Enthusiast & Software Developer",
   roles: ["Data Enthusiast", "Software Developer", "Automation Engineer", "Open-Source Enthusiast"],
   tagline: "Building quality through automation",
